@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bollerjee - Personal Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+        }
+
+        /* Navigation */
+        nav {
+            background: #2c3e50;
+            color: #fff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 150px 2rem 100px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #fff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Sections */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* About Section */
+        .about-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .skill-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Resume Section */
+        .resume-section {
+            margin-bottom: 3rem;
+        }
+
+        .resume-section h3 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .job-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .job-card:hover {
+            transform: translateX(5px);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .job-header h4 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .job-period {
+            color: #888;
+            font-style: italic;
+        }
+
+        .job-responsibilities {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .job-responsibilities li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: #555;
+        }
+
+        .job-responsibilities li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: #667eea;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #764ba2;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <h1>Bollerjee</h1>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#resume">Resume</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2>Bollerjee</h2>
+        <p>Web3 Marketer & Community Manager</p>
+        <p style="font-size: 1.1rem; margin-top: 0;">Building vibrant communities in the decentralized future</p>
+        <a href="#resume" class="btn" style="margin-right: 1rem;">View Resume</a>
+        <a href="#contact" class="btn" style="background: transparent; border: 2px solid #fff; color: #fff;">Get In Touch</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>Hello! I'm Bollerjee, a passionate Web3 Marketer and Community Manager dedicated to building thriving communities in the decentralized ecosystem.</p>
+            <p>With expertise in blockchain technology, crypto marketing, and community engagement, I help Web3 projects grow their presence, foster authentic connections, and drive sustainable community growth.</p>
+            <p>I believe in the transformative power of decentralized technology and am committed to bridging the gap between innovative projects and engaged communities.</p>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume">
+        <h2>Resume</h2>
+        
+        <div class="resume-section">
+            <h3>Professional Summary</h3>
+            <div class="about-content">
+                <p>Results-driven Web3 Marketer and Community Manager with expertise in blockchain ecosystems, crypto marketing strategies, and community building. Proven track record of growing engaged communities, executing successful marketing campaigns, and fostering meaningful connections in the decentralized space.</p>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h3>Experience</h3>
+            <div class="job-card">
+                <div class="job-header">
+                    <h4>Community Manager</h4>
+                    <span class="job-period">[Your Company] • 2023 - Present</span>
+                </div>
+                <ul class="job-responsibilities">
+                    <li>Built and managed a community of 10,000+ engaged members across Discord, Telegram, and Twitter</li>
+                    <li>Developed and implemented community engagement strategies resulting in 40% increase in active participation</li>
+                    <li>Organized and moderated AMAs, community events, and educational sessions</li>
+                    <li>Collaborated with development team to gather community feedback and improve product roadmap</li>
+                </ul>
+            </div>
+
+            <div class="job-card">
+                <div class="job-header">
+                    <h4>Web3 Marketing Specialist</h4>
+                    <span class="job-period">[Previous Company] • 2022 - 2023</span>
+                </div>
+                <ul class="job-responsibilities">
+                    <li>Designed and executed marketing campaigns for NFT launches and token sales</li>
+                    <li>Managed social media presence resulting in 200% follower growth</li>
+                    <li>Created content strategy including blogs, threads, and educational materials</li>
+                    <li>Partnered with influencers and KOLs to expand project reach</li>
+                </ul>
+            </div>
+
+            <div class="job-card">
+                <div class="job-header">
+                    <h4>Community Moderator</h4>
+                    <span class="job-period">[Early Project] • 2021 - 2022</span>
+                </div>
+                <ul class="job-responsibilities">
+                    <li>Moderated community discussions and maintained positive environment</li>
+                    <li>Provided technical support and onboarded new community members</li>
+                    <li>Created FAQ documentation and educational resources</li>
+                    <li>Monitored community sentiment and reported insights to leadership</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h3>Education</h3>
+            <div class="job-card">
+                <div class="job-header">
+                    <h4>Bachelor's Degree in [Your Field]</h4>
+                    <span class="job-period">[University Name] • 2018 - 2022</span>
+                </div>
+                <p style="margin-top: 0.5rem; color: #555;">Relevant coursework: Marketing, Digital Communications, Business Analytics</p>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h3>Certifications</h3>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h4>Blockchain Fundamentals</h4>
+                    <p>Certified blockchain technology expert</p>
+                </div>
+                <div class="skill-card">
+                    <h4>Digital Marketing</h4>
+                    <p>Advanced digital marketing certification</p>
+                </div>
+                <div class="skill-card">
+                    <h4>Community Management</h4>
+                    <p>Professional community management course</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>Skills & Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Community Management</h3>
+                <p>Discord, Telegram, Twitter/X community building and engagement. Expert moderator and event organizer.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Web3 Marketing</h3>
+                <p>NFT launches, token marketing, airdrop campaigns, and influencer partnerships in crypto space.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Content Creation</h3>
+                <p>Twitter threads, blog posts, AMAs, educational content, and viral social media strategies.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Blockchain Knowledge</h3>
+                <p>Deep understanding of DeFi, NFTs, DAOs, smart contracts, and decentralized technologies.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Analytics & Reporting</h3>
+                <p>Community metrics tracking, growth analytics, sentiment analysis, and data-driven strategies.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Tools & Platforms</h3>
+                <p>Discord bots, Collab.Land, Zealy, Galxe, Twitter Analytics, Dune Analytics, and Web3 tools.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Get In Touch</h2>
+        <div class="contact-info">
+            <p>Looking to collaborate on your Web3 project? Let's connect and build something amazing together!</p>
+            <p><strong>Email:</strong> contact@bollerjee.com</p>
+            <p><strong>Telegram:</strong> @bollerjee</p>
+            <div class="social-links">
+                <a href="#" target="_blank">Twitter/X</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Discord</a>
+                <a href="#" target="_blank">Medium</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Bollerjee. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active state to navigation on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.style.color = '#fff';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = '#3498db';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
