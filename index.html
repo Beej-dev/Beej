@@ -1,506 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bollerjee - Personal Website</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveFinder — Your Dream Car Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C8A45A;--gold2:#E8C97A;--gold3:rgba(200,164,90,0.12);
+  --dark:#080808;--d1:#0E0E0E;--d2:#141414;--d3:#1C1C1C;--d4:#242424;--d5:#2E2E2E;
+  --border:rgba(200,164,90,0.15);--border2:rgba(255,255,255,0.06);
+  --text:#F4F0E8;--muted:#7A7570;--muted2:#555;
+  --green:#3DBF7F;--red:#E05858;--blue:#5AA8E8;--orange:#E8975A;
+  --shadow:0 24px 64px rgba(0,0,0,0.7);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f4f4f4;
-        }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--d5);border-radius:2px}
 
-        /* Navigation */
-        nav {
-            background: #2c3e50;
-            color: #fff;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:64px;
+  background:rgba(8,8,8,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-logo{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+  color:var(--gold);letter-spacing:0.06em;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+}
+.topbar-logo span{font-size:10px;color:var(--muted);letter-spacing:0.2em;font-family:'JetBrains Mono',monospace;align-self:flex-end;margin-bottom:3px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.icon-btn{
+  position:relative;background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  border-radius:3px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;transition:all 0.2s;color:var(--muted);
+}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
+.badge{
+  position:absolute;top:-5px;right:-5px;background:var(--gold);color:var(--dark);
+  font-size:9px;font-weight:800;border-radius:99px;min-width:16px;height:16px;
+  display:flex;align-items:center;justify-content:center;padding:0 3px;
+  font-family:'JetBrains Mono',monospace;
+}
+.badge.hidden{display:none}
+.auth-btn{
+  padding:9px 20px;border-radius:2px;font-size:12px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;
+  font-family:'Syne',sans-serif;
+}
+.auth-btn.outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.auth-btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+.auth-btn.solid{background:var(--gold);border:1px solid var(--gold);color:var(--dark)}
+.auth-btn.solid:hover{background:var(--gold2)}
+.user-pill{
+  display:flex;align-items:center;gap:8px;padding:6px 14px;
+  background:var(--gold3);border:1px solid var(--border);border-radius:2px;cursor:pointer;
+}
+.user-pill .avatar{
+  width:26px;height:26px;border-radius:50%;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--dark);
+}
+.user-pill .uname{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:0.05em}
 
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* ── MODALS ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--d1);border:1px solid var(--border);border-radius:6px;
+  padding:40px;width:100%;max-width:440px;position:relative;
+  animation:modalIn 0.3s ease;max-height:90vh;overflow-y:auto;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.94) translateY(16px)}to{opacity:1;transform:none}}
+.modal-close{
+  position:absolute;top:16px;right:16px;background:none;border:none;
+  color:var(--muted);font-size:20px;cursor:pointer;line-height:1;
+}
+.modal-close:hover{color:var(--text)}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;font-family:'JetBrains Mono',monospace}
+.form-input{
+  width:100%;background:var(--d3);border:1px solid var(--border2);border-radius:3px;
+  padding:12px 16px;font-family:'Syne',sans-serif;font-size:14px;color:var(--text);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.form-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,164,90,0.1)}
+.form-input::placeholder{color:var(--muted2)}
+.form-btn{
+  width:100%;padding:14px;background:var(--gold);border:none;border-radius:2px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--dark);cursor:pointer;transition:all 0.2s;margin-top:8px;
+}
+.form-btn:hover{background:var(--gold2)}
+.form-switch{text-align:center;margin-top:16px;font-size:12px;color:var(--muted)}
+.form-switch a{color:var(--gold);cursor:pointer;text-decoration:none}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.divider span{font-size:11px;color:var(--muted);letter-spacing:0.1em}
+.error-msg{color:var(--red);font-size:12px;margin-top:8px;display:none}
 
-        nav h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:100px 20px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -10%,rgba(200,164,90,0.1) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 85%,rgba(200,164,90,0.05) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(200,164,90,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(200,164,90,0.035) 1px,transparent 1px);
+  background-size:80px 80px;pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.25em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:32px;height:1px;background:var(--gold);opacity:0.5}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,9vw,110px);font-weight:700;line-height:0.92;
+  letter-spacing:-0.02em;margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{
+  font-size:15px;color:var(--muted);font-weight:400;max-width:520px;
+  line-height:1.7;margin-bottom:56px;
+}
+.platforms-row{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:20px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--muted);
+}
+.plat-tag{
+  padding:5px 12px;border:1px solid var(--border2);border-radius:2px;
+  transition:all 0.2s;cursor:default;
+}
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+/* ── SEARCH BAR ── */
+.search-container{width:100%;max-width:680px;margin-bottom:24px;position:relative}
+.search-wrap{
+  display:flex;background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:4px;overflow:hidden;backdrop-filter:blur(12px);
+  transition:border-color 0.3s,box-shadow 0.3s;
+}
+.search-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,164,90,0.1)}
+.search-input{
+  flex:1;background:transparent;border:none;padding:20px 24px;
+  font-family:'Syne',sans-serif;font-size:16px;color:var(--text);outline:none;
+}
+.search-input::placeholder{color:var(--muted2)}
+.search-filters-btn{
+  padding:0 18px;background:rgba(255,255,255,0.04);border:none;border-left:1px solid var(--border2);
+  color:var(--muted);font-size:14px;cursor:pointer;transition:all 0.2s;
+}
+.search-filters-btn:hover{color:var(--gold)}
+.search-submit{
+  padding:0 28px;background:var(--gold);border:none;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);cursor:pointer;
+  transition:background 0.2s;white-space:nowrap;
+}
+.search-submit:hover{background:var(--gold2)}
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+.quick-picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.qp{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:2px;padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;
+  transition:all 0.2s;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;
+}
+.qp:hover{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
 
-        nav a:hover {
-            color: #3498db;
-        }
+/* ── MAIN CONTENT ── */
+.main{display:none;padding:84px 20px 80px;max-width:1320px;margin:0 auto}
+.main.visible{display:block;animation:fadeUp 0.5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            padding: 150px 2rem 100px;
-            text-align: center;
-            margin-top: 60px;
-        }
+/* ── RESULTS TOPBAR ── */
+.results-topbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  gap:16px;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);
+}
+.results-left h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700}
+.results-left h2 em{color:var(--gold);font-style:italic}
+.results-left p{font-size:12px;color:var(--muted);margin-top:4px;font-family:'JetBrains Mono',monospace}
+.results-actions{display:flex;gap:8px;flex-wrap:wrap}
+.action-btn{
+  padding:9px 16px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;font-family:'Syne',sans-serif;border:1px solid var(--border2);
+  background:rgba(255,255,255,0.03);color:var(--muted);
+}
+.action-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
+.action-btn.primary{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.action-btn.primary:hover{background:var(--gold2)}
 
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease;
-        }
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:28px}
+.stat-box{background:var(--d1);padding:18px 22px}
+.stat-label{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold)}
+.stat-note{font-size:11px;color:var(--muted);margin-top:2px}
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease 0.2s backwards;
-        }
+/* ── FILTERS ── */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;align-items:center}
+.filter-label{font-size:10px;letter-spacing:0.12em;color:var(--muted2);text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-right:4px}
+.fchip{
+  padding:7px 14px;border-radius:2px;font-size:11px;letter-spacing:0.06em;
+  color:var(--muted);border:1px solid var(--border2);background:transparent;cursor:pointer;
+  transition:all 0.2s;font-family:'Syne',sans-serif;
+}
+.fchip:hover,.fchip.on{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
+.sort-select{
+  margin-left:auto;background:var(--d2);border:1px solid var(--border2);border-radius:2px;
+  padding:7px 14px;font-family:'Syne',sans-serif;font-size:11px;color:var(--muted);
+  outline:none;cursor:pointer;
+}
+.sort-select:focus{border-color:var(--gold)}
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #fff;
-            color: #667eea;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 1s ease 0.4s backwards;
-        }
+/* ── CARDS ── */
+.listings-grid{display:flex;flex-direction:column;gap:14px}
+.listing-card{
+  background:var(--d1);border:1px solid var(--border);border-radius:4px;
+  display:grid;grid-template-columns:260px 1fr 200px;overflow:hidden;
+  transition:border-color 0.25s,box-shadow 0.25s,transform 0.2s;cursor:pointer;
+  position:relative;
+}
+.listing-card:hover{border-color:rgba(200,164,90,0.5);box-shadow:0 12px 40px rgba(0,0,0,0.5);transform:translateY(-1px)}
+.listing-card.best{border-color:var(--gold)}
+.best-badge{
+  position:absolute;top:14px;left:14px;z-index:3;
+  background:var(--gold);color:var(--dark);font-size:9px;font-weight:800;
+  letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:2px;
+}
+.card-img{position:relative;overflow:hidden;background:var(--d3);min-height:180px}
+.car-img-el{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease}
+.listing-card:hover .car-img-el{transform:scale(1.06)}
+.img-placeholder{
+  width:100%;height:100%;min-height:180px;display:flex;align-items:center;
+  justify-content:center;font-size:52px;
+  background:linear-gradient(135deg,var(--d3),var(--d4));
+}
+.platform-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,0.8));
+  padding:16px 14px 10px;display:flex;align-items:center;gap:6px;
+}
+.plat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.plat-name{font-size:10px;letter-spacing:0.1em;color:rgba(255,255,255,0.7);font-family:'JetBrains Mono',monospace}
+.plat-rating{margin-left:auto;font-size:10px;color:var(--gold);font-family:'JetBrains Mono',monospace}
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+.card-body{padding:22px;display:flex;flex-direction:column;gap:12px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;line-height:1.2}
+.cond-tag{
+  font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.cond-excellent{background:rgba(61,191,127,0.12);color:var(--green);border:1px solid rgba(61,191,127,0.25)}
+.cond-good{background:rgba(90,168,232,0.12);color:var(--blue);border:1px solid rgba(90,168,232,0.25)}
+.cond-fair{background:rgba(232,151,90,0.12);color:var(--orange);border:1px solid rgba(232,151,90,0.25)}
 
-        /* Sections */
-        section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
+.specs-row{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.spec{display:flex;align-items:center;gap:4px}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px}
+.ctag{
+  font-size:10px;padding:3px 9px;border-radius:2px;
+  background:rgba(255,255,255,0.03);border:1px solid var(--border2);color:var(--muted);
+}
+.card-footer{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:10px;border-top:1px solid var(--border2)}
+.stars-row{color:var(--gold);font-size:11px;letter-spacing:-1px}
+.rev-count{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.listed-at{margin-left:auto;font-size:10px;color:var(--muted2);font-family:'JetBrains Mono',monospace}
 
-        section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: #2c3e50;
-        }
+.card-price{
+  background:var(--d2);border-left:1px solid var(--border);
+  padding:22px;display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;
+}
+.price-main{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold)}
+.price-msrp{font-size:11px;color:var(--muted);text-align:right;margin-top:2px;font-family:'JetBrains Mono',monospace}
+.price-delta{font-size:11px;font-weight:700;margin-top:4px;text-align:right}
+.delta-good{color:var(--green)}
+.delta-bad{color:var(--red)}
+.card-btns{display:flex;flex-direction:column;gap:7px;width:100%}
+.cbtn{
+  width:100%;padding:10px 8px;border-radius:2px;font-family:'Syne',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+  transition:all 0.2s;border:1px solid;text-align:center;
+}
+.cbtn-gold{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.cbtn-gold:hover{background:var(--gold2);border-color:var(--gold2)}
+.cbtn-outline{background:transparent;border-color:var(--border);color:var(--muted)}
+.cbtn-outline:hover{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
+.cbtn-outline.alerted{border-color:var(--orange);color:var(--orange)}
+.cbtn-save{background:transparent;border-color:var(--border);color:var(--muted)}
+.cbtn-save:hover{border-color:var(--blue);color:var(--blue)}
+.cbtn-save.saved{border-color:var(--blue);color:var(--blue);background:rgba(90,168,232,0.1)}
+.cbtn-compare{background:transparent;border-color:var(--border);color:var(--muted)}
+.cbtn-compare:hover{border-color:var(--green);color:var(--green)}
+.cbtn-compare.comparing{border-color:var(--green);color:var(--green);background:rgba(61,191,127,0.1)}
 
-        /* About Section */
-        .about-content {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+/* ── CART DRAWER ── */
+.drawer{
+  position:fixed;right:-500px;top:0;bottom:0;width:460px;z-index:300;
+  background:var(--d1);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:-20px 0 60px rgba(0,0,0,0.5);
+}
+.drawer.open{right:0}
+.drawer-header{
+  padding:24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.drawer-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
+.drawer-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+.drawer-close:hover{color:var(--text)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px}
+.drawer-footer{padding:20px;border-top:1px solid var(--border)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state .es-icon{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:13px;line-height:1.6}
 
-        .about-content p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
+.cart-item{
+  background:var(--d2);border:1px solid var(--border2);border-radius:3px;
+  padding:14px;margin-bottom:10px;display:grid;grid-template-columns:60px 1fr auto;gap:12px;
+  align-items:center;
+}
+.cart-img{width:60px;height:45px;object-fit:cover;border-radius:2px;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden}
+.cart-img img{width:100%;height:100%;object-fit:cover}
+.cart-info .ctitle{font-size:13px;font-weight:600;margin-bottom:3px}
+.cart-info .cplat{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.cart-info .cprice{font-size:14px;color:var(--gold);font-weight:700;font-family:'Cormorant Garamond',serif;margin-top:4px}
+.cart-remove{background:none;border:none;color:var(--muted2);font-size:16px;cursor:pointer;padding:4px}
+.cart-remove:hover{color:var(--red)}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:12px;background:var(--d3);border-radius:3px}
+.cart-total-label{font-size:12px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.cart-total-val{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);font-weight:700}
+.checkout-btn{
+  width:100%;padding:14px;background:var(--gold);border:none;border-radius:2px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--dark);cursor:pointer;transition:all 0.2s;
+}
+.checkout-btn:hover{background:var(--gold2)}
 
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
+/* ── NOTIFICATIONS DRAWER ── */
+.notif-item{
+  padding:14px;border-bottom:1px solid var(--border2);display:flex;gap:12px;align-items:flex-start;
+}
+.notif-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.notif-text{font-size:12px;line-height:1.5}
+.notif-text strong{color:var(--text);display:block;margin-bottom:2px}
+.notif-text span{color:var(--muted)}
+.notif-time{font-size:10px;color:var(--muted2);font-family:'JetBrains Mono',monospace;margin-top:4px}
+.notif-unread{background:var(--gold3)}
 
-        .skill-card {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            text-align: center;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .skill-card h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .skill-card h4 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        /* Resume Section */
-        .resume-section {
-            margin-bottom: 3rem;
-        }
-
-        .resume-section h3 {
-            font-size: 2rem;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-
-        .job-card {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .job-card:hover {
-            transform: translateX(5px);
-        }
-
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .job-header h4 {
-            color: #667eea;
-            font-size: 1.5rem;
-            margin: 0;
-        }
-
-        .job-period {
-            color: #888;
-            font-style: italic;
-        }
-
-        .job-responsibilities {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .job-responsibilities li {
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-            position: relative;
-            color: #555;
-        }
-
-        .job-responsibilities li:before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        /* Contact Section */
-        .contact-info {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .contact-info p {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .social-links a {
-            color: #667eea;
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .social-links a:hover {
-            color: #764ba2;
-        }
-
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-            }
-
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            section h2 {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <h1>Bollerjee</h1>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <h2>Bollerjee</h2>
-        <p>Web3 Marketer & Community Manager</p>
-        <p style="font-size: 1.1rem; margin-top: 0;">Building vibrant communities in the decentralized future</p>
-        <a href="#resume" class="btn" style="margin-right: 1rem;">View Resume</a>
-        <a href="#contact" class="btn" style="background: transparent; border: 2px solid #fff; color: #fff;">Get In Touch</a>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="about-content">
-            <p>Hello! I'm Bollerjee, a passionate Web3 Marketer and Community Manager dedicated to building thriving communities in the decentralized ecosystem.</p>
-            <p>With expertise in blockchain technology, crypto marketing, and community engagement, I help Web3 projects grow their presence, foster authentic connections, and drive sustainable community growth.</p>
-            <p>I believe in the transformative power of decentralized technology and am committed to bridging the gap between innovative projects and engaged communities.</p>
-        </div>
-    </section>
-
-    <!-- Resume Section -->
-    <section id="resume">
-        <h2>Resume</h2>
-        
-        <div class="resume-section">
-            <h3>Professional Summary</h3>
-            <div class="about-content">
-                <p>Results-driven Web3 Marketer and Community Manager with expertise in blockchain ecosystems, crypto marketing strategies, and community building. Proven track record of growing engaged communities, executing successful marketing campaigns, and fostering meaningful connections in the decentralized space.</p>
-            </div>
-        </div>
-
-        <div class="resume-section">
-            <h3>Experience</h3>
-            <div class="job-card">
-                <div class="job-header">
-                    <h4>Community Manager</h4>
-                    <span class="job-period">[Your Company] • 2023 - Present</span>
-                </div>
-                <ul class="job-responsibilities">
-                    <li>Built and managed a community of 10,000+ engaged members across Discord, Telegram, and Twitter</li>
-                    <li>Developed and implemented community engagement strategies resulting in 40% increase in active participation</li>
-                    <li>Organized and moderated AMAs, community events, and educational sessions</li>
-                    <li>Collaborated with development team to gather community feedback and improve product roadmap</li>
-                </ul>
-            </div>
-
-            <div class="job-card">
-                <div class="job-header">
-                    <h4>Web3 Marketing Specialist</h4>
-                    <span class="job-period">[Previous Company] • 2022 - 2023</span>
-                </div>
-                <ul class="job-responsibilities">
-                    <li>Designed and executed marketing campaigns for NFT launches and token sales</li>
-                    <li>Managed social media presence resulting in 200% follower growth</li>
-                    <li>Created content strategy including blogs, threads, and educational materials</li>
-                    <li>Partnered with influencers and KOLs to expand project reach</li>
-                </ul>
-            </div>
-
-            <div class="job-card">
-                <div class="job-header">
-                    <h4>Community Moderator</h4>
-                    <span class="job-period">[Early Project] • 2021 - 2022</span>
-                </div>
-                <ul class="job-responsibilities">
-                    <li>Moderated community discussions and maintained positive environment</li>
-                    <li>Provided technical support and onboarded new community members</li>
-                    <li>Created FAQ documentation and educational resources</li>
-                    <li>Monitored community sentiment and reported insights to leadership</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="resume-section">
-            <h3>Education</h3>
-            <div class="job-card">
-                <div class="job-header">
-                    <h4>Bachelor's Degree in [Your Field]</h4>
-                    <span class="job-period">[University Name] • 2018 - 2022</span>
-                </div>
-                <p style="margin-top: 0.5rem; color: #555;">Relevant coursework: Marketing, Digital Communications, Business Analytics</p>
-            </div>
-        </div>
-
-        <div class="resume-section">
-            <h3>Certifications</h3>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h4>Blockchain Fundamentals</h4>
-                    <p>Certified blockchain technology expert</p>
-                </div>
-                <div class="skill-card">
-                    <h4>Digital Marketing</h4>
-                    <p>Advanced digital marketing certification</p>
-                </div>
-                <div class="skill-card">
-                    <h4>Community Management</h4>
-                    <p>Professional community management course</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-        <h2>Skills & Expertise</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Community Management</h3>
-                <p>Discord, Telegram, Twitter/X community building and engagement. Expert moderator and event organizer.</p>
-            </div>
-            <div class="skill-card">
-                <h3>Web3 Marketing</h3>
-                <p>NFT launches, token marketing, airdrop campaigns, and influencer partnerships in crypto space.</p>
-            </div>
-            <div class="skill-card">
-                <h3>Content Creation</h3>
-                <p>Twitter threads, blog posts, AMAs, educational content, and viral social media strategies.</p>
-            </div>
-            <div class="skill-card">
-                <h3>Blockchain Knowledge</h3>
-                <p>Deep understanding of DeFi, NFTs, DAOs, smart contracts, and decentralized technologies.</p>
-            </div>
-            <div class="skill-card">
-                <h3>Analytics & Reporting</h3>
-                <p>Community metrics tracking, growth analytics, sentiment analysis, and data-driven strategies.</p>
-            </div>
-            <div class="skill-card">
-                <h3>Tools & Platforms</h3>
-                <p>Discord bots, Collab.Land, Zealy, Galxe, Twitter Analytics, Dune Analytics, and Web3 tools.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <div class="contact-info">
-            <p>Looking to collaborate on your Web3 project? Let's connect and build something amazing together!</p>
-            <p><strong>Email:</strong> contact@bollerjee.com</p>
-            <p><strong>Telegram:</strong> @bollerjee</p>
-            <div class="social-links">
-                <a href="#" target="_blank">Twitter/X</a>
-                <a href="#" target="_blank">LinkedIn</a>
-                <a href="#" target="_blank">Discord</a>
-                <a href="#" target="_blank">Medium</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Bollerjee. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add active state to navigation on scroll
-        window.addEventListener('scroll', () => {
-            let current = '';
-            const sections = document.querySelectorAll('section');
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - 100)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            document.querySelectorAll('nav a').forEach(link => {
-                link.style.color = '#fff';
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.style.color = '#3498db';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+/* ── SAVED DRAWER ── */
+.saved-item{
+  background:var(--d2);border:1px solid var(--border2);border-radius:3px;
+  padding:14px;margin-bottom:10px;
+}
+.saved-item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.saved-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700}
+.saved-plat{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.saved-price{font-family:'Cormorant Garamond',serif;
